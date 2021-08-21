@@ -1,4 +1,11 @@
-﻿# Chocolatey profile
+﻿# Shows navigable menu of all options when hitting Tab
+Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
+
+# Autocompletion for arrow keys
+Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
+Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
+
+# Chocolatey profile
 $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 if (Test-Path($ChocolateyProfile)) {
   Import-Module "$ChocolateyProfile"
@@ -7,6 +14,7 @@ if (Test-Path($ChocolateyProfile)) {
 $Exts = (
   @{Path = "$PSScriptRoot\Scripts\Ext.Composer.ps1"; Command = "composer" },
   @{Path = "$PSScriptRoot\Scripts\Ext.Git.ps1"; Command = "git" },
+  @{Path = "$PSScriptRoot\Scripts\Ext.Laravel.ps1"; Command = "php" },
   @{Path = "$PSScriptRoot\Scripts\Ext.Yarn.ps1"; Command = "yarn" }
 )
 
@@ -14,7 +22,7 @@ foreach ($Ext in $Exts) {
   $Ok = Test-Path $Ext.Path
   if ($Ext.Command) {
     Get-Command $Ext.Command 2>&1> $null
-    $Ok = $? -And $Ok
+    $Ok = $? -and $Ok
   }
   if ($Ok) {
     Import-Module -Global $Ext.Path
@@ -72,7 +80,7 @@ function prompt_separator {
 }
 
 # Prompt
-$Env:VIRTUAL_ENV_DISABLE_PROMPT = $true
+$env:VIRTUAL_ENV_DISABLE_PROMPT = $true
 function global:prompt {
   $Success = $?
 

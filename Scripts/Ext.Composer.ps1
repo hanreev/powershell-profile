@@ -1,3 +1,4 @@
+function cdu { composer dumpauto $args }
 function cgo { composer global outdated $args }
 function cgr { composer global require $args }
 function cgrm { composer global remove $args }
