@@ -143,25 +143,22 @@ function global:prompt {
 }
 
 function which {
-  param (
-    [String]
-    $Command
-  )
-
-  $result = Get-Command $Command
-  $retval = $result.Source
-  if (!$retval) {
-    if ($result.ResolvedCommand) {
-      $retval = $result.ResolvedCommand.Source
-      if ($retval.StartsWith("Microsoft.PowerShell")) {
-        $retval = "$Command -> $($result.ResolvedCommand.Name)"
+  for ($i = 0; $i -lt $args.Count; $i++) {
+    $result = Get-Command $args[$i]
+    $retval = $result.Source
+    if (!$retval) {
+      if ($result.ResolvedCommand) {
+        $retval = $result.ResolvedCommand.Source
+        if ($retval.StartsWith("Microsoft.PowerShell")) {
+          $retval = "$Command -> $($result.ResolvedCommand.Name)"
+        }
+      }
+      else {
+        $retval = $result.Name
       }
     }
-    else {
-      $retval = $result.Name
-    }
+    Write-Host $retval
   }
-  return $retval
 }
 
 function touch {
