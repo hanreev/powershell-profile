@@ -179,3 +179,5 @@ function touch {
 function wt_admin {
   Start-Process -Verb RunAs wt.exe
 }
+
+$env:Path = "$PSScriptRoot\Scripts\bin;$env:Path"
