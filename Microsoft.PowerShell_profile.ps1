@@ -180,4 +180,9 @@ function wt_admin {
   Start-Process -Verb RunAs wt.exe
 }
 
+function flutter_cleanup {
+  Stop-Process -Force -Name java 2> $null
+  Stop-Process -Force -Name dart 2> $null
+}
+
 $env:Path = "$PSScriptRoot\Scripts\bin;$env:Path"
