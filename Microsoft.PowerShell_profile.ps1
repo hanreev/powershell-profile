@@ -144,13 +144,14 @@ function global:prompt {
 
 function which {
   for ($i = 0; $i -lt $args.Count; $i++) {
-    $result = Get-Command $args[$i]
+    $command = $args[$i]
+    $result = Get-Command $command
     $retval = $result.Source
     if (!$retval) {
       if ($result.ResolvedCommand) {
         $retval = $result.ResolvedCommand.Source
         if ($retval.StartsWith("Microsoft.PowerShell")) {
-          $retval = "$Command -> $($result.ResolvedCommand.Name)"
+          $retval = "$command -> $($result.ResolvedCommand.Name)"
         }
       }
       else {
